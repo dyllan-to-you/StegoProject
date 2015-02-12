@@ -1,0 +1,13 @@
+{
+  "name": "StegoProject", 
+  "version": "0.0.1", 
+  "main": "app.js",
+  "dependencies": {
+    "express": "latest",
+    "body-parser": "latest"
+  },
+  "repository":{
+  	"type": "git",
+  	"url": "https://github.com/Jarwain/StegoProject"
+  }
+}
