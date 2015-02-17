@@ -78,14 +78,14 @@ function encrypt(cover, embed, password, filetype){
 		var output = "output/" + id + filetype;
 		var command = "steghide embed -cf " + cover.path + " -ef " + embed.path + " -sf " + output + " -p " + password;
 		var exec = require('child_process').exec;
-		exec(command, function (error, stdout, stderr) {
+		return exec(command, function (error, stdout, stderr) {
 			if(error){
 				console.log(error);
 				result = {"error":true};
 				result.message = error;
 				return result;
 			}
-			checksum.file(output, function (err, sum) {
+			return checksum.file(output, function (err, sum) {
 				if(err){
 					console.log(err);
 					result = {"error":true};
