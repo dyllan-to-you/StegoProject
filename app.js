@@ -5,6 +5,7 @@ var express    = require('express');        // call express
 var app        = express();                 // define our app using express
 var bodyParser = require('body-parser');	// import bodyParser to parse the body of API requests
 var multer = require('multer');				// File upload support
+var checksum = require('checksum');
 
 // configure app to use bodyParser()
 // this will let us get the data from a POST
@@ -26,7 +27,8 @@ router.use(function(req, res, next) {
 
 // test route to make sure everything is working (accessed at GET http://localhost:8080/api)
 router.get('/', function(req, res) {
-    res.json({ message: 'Steganography API!' });   
+    var result = { "message": 'Steganography API!' };
+    res.json(result); 
 });
 
 // req.params.extraThing to access :extraThing
@@ -36,7 +38,8 @@ router.route('/encrypt')
     .post(function(req, res) {
 		// Has parameters cover, embed, [password], and [filetype]
 		// returns ID for encrypted file
-		res.json = encrypt(req.files.cover, req.files.embed, req.body.password, req.body.filetype);
+		console.log("Time to encrypt!");
+		res.json(encrypt(req.files.cover, req.files.embed, req.body.password, req.body.filetype));
     });
 
 router.route('/encrypted/:id')
@@ -62,7 +65,43 @@ app.listen(port);
 console.log('Magic happens on port ' + port);
 
 function encrypt(cover, embed, password, filetype){
-	password = password || null;
+	var result;
+	password = "\"" + password + "\"" || "\"\"";
 	filetype = filetype || cover.extension;
-
+	console.log("Filetype: " + filetype);
+	if(/^jpe?g|au|bmp|wav$/i.test(filetype)){
+		// Use Steghide
+		console.log("Calling Steghide");
+		var id = cover.name.split(".")[0] + ".";
+		var output = "output/" + id + filetype;
+		var command = "steghide embed -cf " + cover.path + " -ef " + embed.path + " -sf " + output + " -p " + password;
+		var exec = require('child_process').exec;
+		exec(command, function (error, stdout, stderr) {
+			if(error){
+				result = {"error":true};
+				result.message = error;
+				return result;
+			}
+			checksum.file('dshaw.txt', function (err, sum) {
+				if(err){
+					result = {"error":true};
+					result.message = err;
+					return result;
+				}
+				console.log(id);
+				console.log(sum);
+				result = {};
+				result.id = id;
+				result.checksum_sha1 = sum;
+				return result;	 
+			});
+		});
+	} else if(/^png$/i.test(filetype)){
+		// Use Stega
+		console.log("Calling Stega");
+	} else {
+		console.log("Invalid Filetype!");
+		return {"error": true, "message":"Invalid Filetype"};
+	}
+	console.log("This Shouldn't happen!");
 }
