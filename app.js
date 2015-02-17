@@ -95,7 +95,7 @@ function encrypt(cover, embed, password, filetype, callback){
 				console.log(id);
 				console.log(sum);
 				result = {};
-				result.id = id;
+				result.id = id+filetype;
 				result.checksum_sha1 = sum;
 				console.log( result);
 				callback(result);	 
