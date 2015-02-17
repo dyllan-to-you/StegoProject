@@ -97,6 +97,7 @@ function encrypt(cover, embed, password, filetype){
 				result = {};
 				result.id = id;
 				result.checksum_sha1 = sum;
+				console.log( result);
 				return result;	 
 			});
 		});
