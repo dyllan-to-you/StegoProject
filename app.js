@@ -39,9 +39,9 @@ router.route('/encrypt')
 		// Has parameters cover, embed, [password], and [filetype]
 		// returns ID for encrypted file
 		console.log("Time to encrypt!");
-		var result = encrypt(req.files.cover, req.files.embed, req.body.password, req.body.filetype);
-		console.log(result);
-		res.json(result);
+		encrypt(req.files.cover, req.files.embed, req.body.password, req.body.filetype, function(result){
+			res.json(result);
+		});
     });
 
 router.route('/encrypted/:id')
@@ -66,7 +66,7 @@ app.use('/steganography', router);
 app.listen(port);
 console.log('Magic happens on port ' + port);
 
-function encrypt(cover, embed, password, filetype){
+function encrypt(cover, embed, password, filetype, callback){
 	var result;
 	password = "\"" + password + "\"" || "\"\"";
 	filetype = filetype || cover.extension;
@@ -83,14 +83,14 @@ function encrypt(cover, embed, password, filetype){
 				console.log(error);
 				result = {"error":true};
 				result.message = error;
-				return result;
+				callback(result);
 			}
 			checksum.file(output, function (err, sum) {
 				if(err){
 					console.log(err);
 					result = {"error":true};
 					result.message = err;
-					return result;
+					callback(result);
 				}
 				console.log(id);
 				console.log(sum);
@@ -98,7 +98,7 @@ function encrypt(cover, embed, password, filetype){
 				result.id = id;
 				result.checksum_sha1 = sum;
 				console.log( result);
-				return result;	 
+				callback(result);	 
 			});
 		});
 	} else if(/^png$/i.test(filetype)){
@@ -108,5 +108,4 @@ function encrypt(cover, embed, password, filetype){
 		console.log("Invalid Filetype!");
 		return {"error": true, "message":"Invalid Filetype"};
 	}
-	console.log("This Shouldn't happen!");
 }
