@@ -1,17 +1,17 @@
 // app.js
 
-// BASE SETUP
-// =============================================================================
-
 // call the packages we need
 var express    = require('express');        // call express
 var app        = express();                 // define our app using express
-var bodyParser = require('body-parser');
+var bodyParser = require('body-parser');	// import bodyParser to parse the body of API requests
+var multer = require('multer');				// File upload support
 
 // configure app to use bodyParser()
 // this will let us get the data from a POST
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+app.use(multer({ dest: './uploads/'})); // Set upload directory to /uploads
+
 
 var port = process.env.PORT || 8080;        // set our port
 
@@ -21,7 +21,6 @@ var router = express.Router();              // get an instance of the express Ro
 
 router.use(function(req, res, next) {
     // do logging
-    console.log('Something is happening.');
     next(); // make sure we go to the next routes and don't stop here
 });
 
@@ -35,12 +34,9 @@ router.get('/', function(req, res) {
 
 router.route('/encrypt')
     .post(function(req, res) {
-		// Has parameters cover, embed, and [password]
-		// returns ID for encrypted file                
-    });
-router.route('/encrypt/:filetype')
-    .post(function(req, res) {
-    	// req.params.filetype
+		// Has parameters cover, embed, [password], and [filetype]
+		// returns ID for encrypted file
+		res.json = encrypt(req.files.cover, req.files.embed, req.body.password, req.body.filetype);
     });
 
 router.route('/encrypted/:id')
@@ -48,7 +44,7 @@ router.route('/encrypted/:id')
 		// Return object with req.params.id
 	})
 	.delete(function(req,res){
-		// Delete image with req.params.id
+		// Delete image with req.params.idM
 	});
 
 router.route('/decrypt')
@@ -64,3 +60,9 @@ app.use('/steganography', router);
 // =============================================================================
 app.listen(port);
 console.log('Magic happens on port ' + port);
+
+function encrypt(cover, embed, password, filetype){
+	password = password || null;
+	filetype = filetype || cover.extension;
+
+}

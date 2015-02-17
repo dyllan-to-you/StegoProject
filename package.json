@@ -4,7 +4,8 @@
   "main": "app.js",
   "dependencies": {
     "express": "latest",
-    "body-parser": "latest"
+    "body-parser": "latest",
+    "multer":"latest"
   },
   "repository":{
   	"type": "git",
