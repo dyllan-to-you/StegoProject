@@ -5,7 +5,8 @@
   "dependencies": {
     "express": "latest",
     "body-parser": "latest",
-    "multer":"latest"
+    "multer":"latest",
+    "checksum":"latest"
   },
   "repository":{
   	"type": "git",
