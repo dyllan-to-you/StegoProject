@@ -39,7 +39,9 @@ router.route('/encrypt')
 		// Has parameters cover, embed, [password], and [filetype]
 		// returns ID for encrypted file
 		console.log("Time to encrypt!");
-		res.json(encrypt(req.files.cover, req.files.embed, req.body.password, req.body.filetype));
+		var result = encrypt(req.files.cover, req.files.embed, req.body.password, req.body.filetype);
+		console.log(result);
+		res.json(result);
     });
 
 router.route('/encrypted/:id')
