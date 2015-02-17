@@ -78,12 +78,14 @@ function encrypt(cover, embed, password, filetype){
 		var exec = require('child_process').exec;
 		exec(command, function (error, stdout, stderr) {
 			if(error){
+				console.log(error);
 				result = {"error":true};
 				result.message = error;
 				return result;
 			}
-			checksum.file('dshaw.txt', function (err, sum) {
+			checksum.file(output, function (err, sum) {
 				if(err){
+					console.log(err);
 					result = {"error":true};
 					result.message = err;
 					return result;
