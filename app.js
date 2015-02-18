@@ -120,3 +120,9 @@ function encrypt(cover, embed, password, filetype, callback){
 		callback(result);
 	}
 }
+
+function decrypt(encrypt, password, filetype, callback){
+	var result = {};
+	password = "\"" + password + "\"" || "\"\"";
+	filetype = filetype || encrypt.extension;
+}
