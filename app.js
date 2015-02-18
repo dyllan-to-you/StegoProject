@@ -85,7 +85,20 @@ router.route('/encrypted/:id')
 
 router.route('/decrypt')
 	.post(function(req,res){
-		// has parameters {encrypt}, [filetype], [password] returns embedded file
+		var encrypt = req.files.encrypt;
+		decrypt(encrypt, req.body.password, req.body.filetype, function(result){
+			if(typeof result.error !== 'undefined'){
+				res.status(500).json(result);
+			}
+			else{
+				res.json(result);
+				var uploadDir = "./uploads/";
+				fs.unlink(uploadDir + encrypt.name, function(err){
+					console.log(err);
+				});
+			}
+		});
+		// has parameters {encrypt}, [password], [filetype] returns embedded file
 	});
 
 // REGISTER OUR ROUTES -------------------------------
@@ -99,7 +112,9 @@ console.log('Magic happens on port ' + port);
 
 function encrypt(cover, embed, password, filetype, callback){
 	var result = {};
-	password = "\"" + password + "\"" || "\"\"";
+	if(typeof password == 'undefined'){
+		password = "\"\"";
+	}
 	filetype = filetype || cover.extension;
 
 	if(/^jpe?g|au|bmp|wav$/i.test(filetype)){
@@ -107,15 +122,12 @@ function encrypt(cover, embed, password, filetype, callback){
 		console.log("Calling Steghide");
 		var id = cover.name.split(".")[0] + ".";
 		var output = "output/" + id + filetype;
-		var command = "steghide embed -cf " + cover.path + " -ef " + embed.path + " -sf " + output + " -p " + password;
-		var exec = require('child_process').exec;
-		exec(command, function (error, stdout, stderr) {
-			if(error){
-				console.log(error);
-				result = {"error":true};
-				result.message = error;
-				callback(result);
-			}
+		var command = ["embed", "-cf"];
+		command.push(cover.path, "-ef", embed.path, "-sf", output, "-p", password);
+		var spawn = require('child_process').spawn;
+		var child = spawn('steghide', command);
+		child.stderr.on('data', function (data) {
+			console.log('stderr: ' + data);
 			checksum.file(output, function (err, sum) {
 				if(err){
 					console.log(err);
@@ -142,6 +154,28 @@ function encrypt(cover, embed, password, filetype, callback){
 
 function decrypt(encrypt, password, filetype, callback){
 	var result = {};
-	password = "\"" + password + "\"" || "\"\"";
+	if(typeof password == 'undefined'){
+		password = "";
+	}
 	filetype = filetype || encrypt.extension;
+	if(/^jpe?g|au|bmp|wav$/i.test(filetype)){
+		// Use Steghide
+		console.log("Calling Steghide");
+		var command = ['extract', '-f', '-sf'];
+		command.push(encrypt.path,'-p',password);
+		console.log(command);
+		var spawn = require('child_process').spawn;
+		var child = spawn('steghide', command);
+		child.stderr.on('data', function (data) {
+			console.log('stderr: ' + data);
+		});
+	} else if(/^png$/i.test(filetype)){
+		result.error = true;
+		result.message = "Lossless Images Not Supported (yet)";
+		callback(result);
+	} else {
+		result.error = true;
+		result.message = "Invalid Filetype";
+		callback(result);
+	}
 }
