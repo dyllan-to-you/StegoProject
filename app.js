@@ -113,7 +113,7 @@ console.log('Magic happens on port ' + port);
 function encrypt(cover, embed, password, filetype, callback){
 	var result = {};
 	if(typeof password == 'undefined'){
-		password = "\"\"";
+		password = "";
 	}
 	filetype = filetype || cover.extension;
 
@@ -128,18 +128,23 @@ function encrypt(cover, embed, password, filetype, callback){
 		var child = spawn('steghide', command);
 		child.stderr.on('data', function (data) {
 			console.log('stderr: ' + data);
-			checksum.file(output, function (err, sum) {
-				if(err){
-					console.log(err);
-					result = {"error":true};
-					result.message = err;
-					callback(result);
-				}
-				result = {};
-				result.id = id+filetype;
-				result.checksum_sha1 = sum;
-				callback(result);	 
-			});
+			if(data.indexOf("done") > -1){
+				checksum.file(output, function (err, sum) {
+					if(err){
+						console.log(err);
+						result.error = true;
+						result.message = err;
+						callback(result);
+					}
+					result.id = id+filetype;
+					result.checksum_sha1 = sum;
+					callback(result);	 
+				});
+			} else if (data.indexOf("could not open file") > -1){
+				result.error = true;
+				result.message = "Could Not open File";
+				callback(result);
+			}
 		});
 	} else if(/^png$/i.test(filetype)){
 		result.error = true;
