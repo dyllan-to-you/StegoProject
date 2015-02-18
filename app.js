@@ -40,7 +40,10 @@ router.route('/encrypt')
 		// returns ID for encrypted file
 		console.log("Time to encrypt!");
 		encrypt(req.files.cover, req.files.embed, req.body.password, req.body.filetype, function(result){
-			res.json(result);
+			if(typeof result.error !== 'undefined')
+				res.status(500).json(result);
+			else
+				res.json(result);
 		});
     });
 
@@ -67,7 +70,7 @@ app.listen(port);
 console.log('Magic happens on port ' + port);
 
 function encrypt(cover, embed, password, filetype, callback){
-	var result;
+	var result = {};
 	password = "\"" + password + "\"" || "\"\"";
 	filetype = filetype || cover.extension;
 	console.log("Filetype: " + filetype);
@@ -92,20 +95,19 @@ function encrypt(cover, embed, password, filetype, callback){
 					result.message = err;
 					callback(result);
 				}
-				console.log(id);
-				console.log(sum);
 				result = {};
 				result.id = id+filetype;
 				result.checksum_sha1 = sum;
-				console.log( result);
 				callback(result);	 
 			});
 		});
 	} else if(/^png$/i.test(filetype)){
-		// Use Stega
-		console.log("Calling Stega");
+		result.error = true;
+		result.message = "Lossless Images Not Supported (yet)";
+		callback(result);
 	} else {
-		console.log("Invalid Filetype!");
-		return {"error": true, "message":"Invalid Filetype"};
+		result.error = true;
+		result.message = "Invalid Filetype";
+		callback(result);
 	}
 }
