@@ -5,7 +5,8 @@ var express    = require('express');        // call express
 var app        = express();                 // define our app using express
 var bodyParser = require('body-parser');	// import bodyParser to parse the body of API requests
 var multer = require('multer');				// File upload support
-var checksum = require('checksum');
+var checksum = require('checksum');			// Does Checksum things
+var fs = require('fs');						// Filesystem Object thing
 
 // configure app to use bodyParser()
 // this will let us get the data from a POST
@@ -39,11 +40,21 @@ router.route('/encrypt')
 		// Has parameters cover, embed, [password], and [filetype]
 		// returns ID for encrypted file
 		console.log("Time to encrypt!");
-		encrypt(req.files.cover, req.files.embed, req.body.password, req.body.filetype, function(result){
-			if(typeof result.error !== 'undefined')
+		var cover = req.files.cover, embed = req.files.embed;
+		encrypt(cover, embed, req.body.password, req.body.filetype, function(result){
+			if(typeof result.error !== 'undefined'){
 				res.status(500).json(result);
-			else
+			}
+			else{
 				res.json(result);
+				var uploadDir = "./uploads/";
+				fs.unlink(uploadDir + cover.name, function(err){
+					console.log(err);
+				});
+				fs.unlink(uploadDir + embed.name, function(err){
+					console.log(err);
+				});
+			}
 		});
     });
 
@@ -62,6 +73,14 @@ router.route('/encrypted/:id')
 	})
 	.delete(function(req,res){
 		var id = req.params.id;
+		var file = './output/' + id;
+		fs.unlink(file, function (err) {
+			if (err) {
+				console.log(err);
+				res.status(err.status).end();
+			}
+			res.json({"message":"File Deleted"});
+		});
 	});
 
 router.route('/decrypt')
