@@ -49,15 +49,24 @@ router.route('/encrypt')
 
 router.route('/encrypted/:id')
 	.get(function(req,res){
-		// Return object with req.params.id
+		var id = req.params.id;
+		res.sendFile(id, {root:"./output/"}, function (err) {
+		    if (err) {
+		      console.log(err);
+		      res.status(err.status).end();
+		    }
+		    else {
+		      console.log('Sent:', id);
+			}
+		});
 	})
 	.delete(function(req,res){
-		// Delete image with req.params.idM
+		var id = req.params.id;
 	});
 
 router.route('/decrypt')
 	.post(function(req,res){
-		// has parameter {encrypt}, returns embedded file
+		// has parameters {encrypt}, [filetype], [password] returns embedded file
 	});
 
 // REGISTER OUR ROUTES -------------------------------
@@ -73,7 +82,7 @@ function encrypt(cover, embed, password, filetype, callback){
 	var result = {};
 	password = "\"" + password + "\"" || "\"\"";
 	filetype = filetype || cover.extension;
-	console.log("Filetype: " + filetype);
+
 	if(/^jpe?g|au|bmp|wav$/i.test(filetype)){
 		// Use Steghide
 		console.log("Calling Steghide");
