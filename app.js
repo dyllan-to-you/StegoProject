@@ -43,6 +43,7 @@ router.route('/encrypt')
 		var cover = req.files.cover, embed = req.files.embed;
 		encrypt(cover, embed, req.body.password, req.body.filetype, function(result){
 			if(typeof result.error !== 'undefined'){
+				// Throw an error if there's an error
 				res.status(500).json(result);
 			}
 			else{
@@ -123,12 +124,12 @@ function encrypt(cover, embed, password, filetype, callback){
 		var id = cover.name.split(".")[0] + ".";
 		var output = "output/" + id + filetype;
 		var command = ["embed", "-cf"];
-		command.push(cover.path, "-ef", embed.path, "-sf", output, "-p", password);
+		command.push(cover.path, "-ef", embed.path, "-sf", output, "-p", password, "-e", "blowfish");
 		var spawn = require('child_process').spawn;
 		var child = spawn('steghide', command);
 		child.stderr.on('data', function (data) {
 			console.log('stderr: ' + data);
-			if(data.indexOf("done") > -1){
+			if(data.toString().indexOf("done") > -1){
 				checksum.file(output, function (err, sum) {
 					if(err){
 						console.log(err);
@@ -140,10 +141,13 @@ function encrypt(cover, embed, password, filetype, callback){
 					result.checksum_sha1 = sum;
 					callback(result);	 
 				});
-			} else if (data.indexOf("could not open file") > -1){
+			} else if (data.toString().indexOf("could not open file") > -1){
 				result.error = true;
 				result.message = "Could Not open File";
 				callback(result);
+			} else {
+				result.error = true;
+				result.message = data.toString();
 			}
 		});
 	} else if(/^png$/i.test(filetype)){
@@ -167,12 +171,23 @@ function decrypt(encrypt, password, filetype, callback){
 		// Use Steghide
 		console.log("Calling Steghide");
 		var command = ['extract', '-f', '-sf'];
-		command.push(encrypt.path,'-p',password);
+		command.push(encrypt.path,'-p', password);
 		console.log(command);
 		var spawn = require('child_process').spawn;
 		var child = spawn('steghide', command);
 		child.stderr.on('data', function (data) {
 			console.log('stderr: ' + data);
+			if(data.toString().indexOf("wrote extracted data to ") > -1){
+				// TODO: Figure out how to handle this
+				
+			} else if (data.toString().indexOf("could not extract any data with that passphrase") > -1){
+				result.error = true;
+				result.message = "Invalid Password";
+				callback(result);
+			} else {
+				result.error = true;
+				result.message = data.toString();
+			}
 		});
 	} else if(/^png$/i.test(filetype)){
 		result.error = true;
