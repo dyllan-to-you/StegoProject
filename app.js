@@ -35,13 +35,13 @@ router.get('/', function(req, res) {
 // req.params.extraThing to access :extraThing
 // req.body gives key=>value pairs in JSON
 
-router.route('/encrypt')
+router.route('/embed')
     .post(function(req, res) {
 		// Has parameters cover, embed, [password], and [filetype]
-		// returns ID for encrypted file
-		console.log("Time to encrypt!");
+		// returns ID for embedded file
+		console.log("Time to embed!");
 		var cover = req.files.cover, embed = req.files.embed;
-		encrypt(cover, embed, req.body.password, req.body.filetype, function(result){
+		embed(cover, embed, req.body.password, req.body.filetype, function(result){
 			if(typeof result.error !== 'undefined'){
 				// Throw an error if there's an error
 				res.status(500).json(result);
@@ -59,7 +59,7 @@ router.route('/encrypt')
 		});
     });
 
-router.route('/encrypted/:id')
+router.route('/embedded/:id')
 	.get(function(req,res){
 		var id = req.params.id;
 		res.sendFile(id, {root:"./output/"}, function (err) {
@@ -84,26 +84,27 @@ router.route('/encrypted/:id')
 		});
 	});
 
-router.route('/decrypt')
+router.route('/extract')
 	.post(function(req,res){
-		var encrypt = req.files.encrypt;
-		decrypt(encrypt, req.body.password, req.body.filetype, function(result){
+		var embed = req.files.embed;
+		// has parameters {embed}, [password], [filetype] 
+		// returns embedded file
+		extract(embed, req.body.password, req.body.filetype, function(result){
 			if(typeof result.error !== 'undefined'){
 				res.status(500).json(result);
 			}
 			else{
 				res.json(result);
 				var uploadDir = "./uploads/";
-				fs.unlink(uploadDir + encrypt.name, function(err){
+				fs.unlink(uploadDir + embed.name, function(err){
 					console.log(err);
 				});
 			}
 		});
-		// has parameters {encrypt}, [password], [filetype] returns embedded file
 	});
 
 // REGISTER OUR ROUTES -------------------------------
-// all of our routes will be prefixed with /api
+// all of our routes will be prefixed with /steganography
 app.use('/steganography', router);
 
 // START THE SERVER
@@ -111,7 +112,7 @@ app.use('/steganography', router);
 app.listen(port);
 console.log('Magic happens on port ' + port);
 
-function encrypt(cover, embed, password, filetype, callback){
+function embed(cover, embed, password, filetype, callback){
 	var result = {};
 	if(typeof password == 'undefined'){
 		password = "";
@@ -161,17 +162,17 @@ function encrypt(cover, embed, password, filetype, callback){
 	}
 }
 
-function decrypt(encrypt, password, filetype, callback){
+function extract(embed, password, filetype, callback){
 	var result = {};
 	if(typeof password == 'undefined'){
 		password = "";
 	}
-	filetype = filetype || encrypt.extension;
+	filetype = filetype || embed.extension;
 	if(/^jpe?g|au|bmp|wav$/i.test(filetype)){
 		// Use Steghide
 		console.log("Calling Steghide");
 		var command = ['extract', '-f', '-sf'];
-		command.push(encrypt.path,'-p', password);
+		command.push(embed.path,'-p', password);
 		console.log(command);
 		var spawn = require('child_process').spawn;
 		var child = spawn('steghide', command);
