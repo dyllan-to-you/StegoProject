@@ -8,11 +8,15 @@ var multer = require('multer');				// File upload support
 var checksum = require('checksum');			// Does Checksum things
 var fs = require('fs');						// Filesystem Object thing
 
+var uploadDir = __dirname + "/uploads/";
+var outputDir = __dirname + "/output/";
+var resultDir = __dirname + "/result/";
+
 // configure app to use bodyParser()
 // this will let us get the data from a POST
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
-app.use(multer({ dest: './uploads/'})); // Set upload directory to /uploads
+app.use(multer({ dest: uploadDir})); // Set upload directory to /uploads
 
 
 var port = process.env.PORT || 8080;        // set our port
@@ -22,7 +26,6 @@ var port = process.env.PORT || 8080;        // set our port
 var router = express.Router();              // get an instance of the express Router
 
 router.use(function(req, res, next) {
-    // do logging
     next(); // make sure we go to the next routes and don't stop here
 });
 
@@ -40,31 +43,36 @@ router.route('/embed')
 		// Has parameters cover, embed, [password], and [filetype]
 		// returns ID for embedded file
 		console.log("Time to embed!");
-		var cover = req.files.cover, embed = req.files.embed;
-		embed(cover, embed, req.body.password, req.body.filetype, function(result){
+		var coverF = req.files.cover, embedF = req.files.embed;
+		embed(coverF, embedF, req.body.password, req.body.filetype, function(result){
 			if(typeof result.error !== 'undefined'){
 				// Throw an error if there's an error
 				res.status(500).json(result);
 			}
 			else{
 				res.json(result);
-				var uploadDir = "./uploads/";
-				fs.unlink(uploadDir + cover.name, function(err){
-					console.log(err);
+				fs.unlink(uploadDir + coverF.name, function(err){
+					if (err) {
+				      errLog(err);
+				    }
 				});
-				fs.unlink(uploadDir + embed.name, function(err){
-					console.log(err);
+				fs.unlink(uploadDir + embedF.name, function(err){
+					if (err) {
+				      errLog(err);
+				    }
 				});
 			}
+			hasCalled = true;
+		console.log("Done embedding");
 		});
     });
 
 router.route('/embedded/:id')
 	.get(function(req,res){
 		var id = req.params.id;
-		res.sendFile(id, {root:"./output/"}, function (err) {
+		res.sendFile(id, {root:outputDir}, function (err) {
 		    if (err) {
-		      console.log(err);
+		      errLog(err);
 		      res.status(err.status).end();
 		    }
 		    else {
@@ -74,10 +82,10 @@ router.route('/embedded/:id')
 	})
 	.delete(function(req,res){
 		var id = req.params.id;
-		var file = './output/' + id;
+		var file = outputDir + id;
 		fs.unlink(file, function (err) {
 			if (err) {
-				console.log(err);
+				errLog(err);
 				res.status(err.status).end();
 			}
 			res.json({"message":"File Deleted"});
@@ -86,6 +94,7 @@ router.route('/embedded/:id')
 
 router.route('/extract')
 	.post(function(req,res){
+		console.log("time to extract");
 		var embed = req.files.embed;
 		// has parameters {embed}, [password], [filetype] 
 		// returns embedded file
@@ -94,10 +103,25 @@ router.route('/extract')
 				res.status(500).json(result);
 			}
 			else{
-				res.json(result);
-				var uploadDir = "./uploads/";
-				fs.unlink(uploadDir + embed.name, function(err){
-					console.log(err);
+				// res.json(result);
+				res.sendFile(result.fileName, {root:resultDir}, function (err) {
+				    if (err) {
+				    	errLog("kek" + err);
+				    	res.status(err.status).end();
+				    }
+				    else {
+				      	console.log('Sent:', result.fileName);
+  						fs.unlink(uploadDir + embed.name, function(err){
+							if (err) {
+					    		errLog("unlinkerror " + err);
+					    	}
+						});
+						fs.unlink(resultDir + result.fileName,function(err){
+							if (err) {
+						      	errLog("unlinkerror " + err);
+						    }
+						});
+					}
 				});
 			}
 		});
@@ -112,7 +136,7 @@ app.use('/steganography', router);
 app.listen(port);
 console.log('Magic happens on port ' + port);
 
-function embed(cover, embed, password, filetype, callback){
+function embed(cover, embedFile, password, filetype, callback){
 	var result = {};
 	if(typeof password == 'undefined'){
 		password = "";
@@ -123,9 +147,9 @@ function embed(cover, embed, password, filetype, callback){
 		// Use Steghide
 		console.log("Calling Steghide");
 		var id = cover.name.split(".")[0] + ".";
-		var output = "output/" + id + filetype;
+		var output = outputDir + id + filetype;
 		var command = ["embed", "-cf"];
-		command.push(cover.path, "-ef", embed.path, "-sf", output, "-p", password, "-e", "blowfish");
+		command.push(cover.path, "-ef", embedFile.path, "-sf", output, "-p", password, "-e", "blowfish");
 		var spawn = require('child_process').spawn;
 		var child = spawn('steghide', command);
 		child.stderr.on('data', function (data) {
@@ -133,7 +157,7 @@ function embed(cover, embed, password, filetype, callback){
 			if(data.toString().indexOf("done") > -1){
 				checksum.file(output, function (err, sum) {
 					if(err){
-						console.log(err);
+						errLog(err);
 						result.error = true;
 						result.message = err;
 						callback(result);
@@ -146,9 +170,12 @@ function embed(cover, embed, password, filetype, callback){
 				result.error = true;
 				result.message = "Could Not open File";
 				callback(result);
+			} else if (data.toString().indexOf("writing stego file") > -1){
+				// Do Nothing
 			} else {
 				result.error = true;
 				result.message = data.toString();
+				callback(result);
 			}
 		});
 	} else if(/^png$/i.test(filetype)){
@@ -162,32 +189,36 @@ function embed(cover, embed, password, filetype, callback){
 	}
 }
 
-function extract(embed, password, filetype, callback){
+function extract(cover, password, filetype, callback){
 	var result = {};
 	if(typeof password == 'undefined'){
 		password = "";
 	}
-	filetype = filetype || embed.extension;
+	filetype = filetype || cover.extension;
 	if(/^jpe?g|au|bmp|wav$/i.test(filetype)){
 		// Use Steghide
 		console.log("Calling Steghide");
 		var command = ['extract', '-f', '-sf'];
-		command.push(embed.path,'-p', password);
+		command.push(cover.path,'-p', password);
 		console.log(command);
 		var spawn = require('child_process').spawn;
 		var child = spawn('steghide', command);
+		var hasSent = false;
 		child.stderr.on('data', function (data) {
 			console.log('stderr: ' + data);
-			if(data.toString().indexOf("wrote extracted data to ") > -1){
-				// TODO: Figure out how to handle this
-				
-			} else if (data.toString().indexOf("could not extract any data with that passphrase") > -1){
-				result.error = true;
-				result.message = "Invalid Password";
+			if(!hasSent){
+				if(data.toString().indexOf("wrote extracted data to ") > -1){
+					result.fileName = data.toString().substring(data.toString().indexOf('"')+1,data.toString().lastIndexOf('"'));
+					var move = spawn('mv',[result.fileName,resultDir]);
+					hasSent = true;
+				} else if (data.toString().indexOf("could not extract any data with that passphrase") > -1){
+					result.error = true;
+					result.message = "Invalid Password";
+				} else {
+					result.error = true;
+					result.message = "lol" + data.toString();
+				}
 				callback(result);
-			} else {
-				result.error = true;
-				result.message = data.toString();
 			}
 		});
 	} else if(/^png$/i.test(filetype)){
@@ -199,4 +230,8 @@ function extract(embed, password, filetype, callback){
 		result.message = "Invalid Filetype";
 		callback(result);
 	}
+}
+
+function errLog(item){
+	console.log("Error: " + item);
 }
