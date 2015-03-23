@@ -44,25 +44,28 @@ router.route('/embed')
 		// returns ID for embedded file
 		console.log("Time to embed!");
 		var coverF = req.files.cover, embedF = req.files.embed;
+		var hasCalled = false;
 		embed(coverF, embedF, req.body.password, req.body.filetype, function(result){
-			if(typeof result.error !== 'undefined'){
-				// Throw an error if there's an error
-				res.status(500).json(result);
+			if(hasCalled === false){
+				if(typeof result.error !== 'undefined'){
+					// Throw an error if there's an error
+					res.status(500).json(result);
+				}
+				else{
+					res.json(result);
+					fs.unlink(uploadDir + coverF.name, function(err){
+						if (err) {
+					      errLog(err);
+					    }
+					});
+					fs.unlink(uploadDir + embedF.name, function(err){
+						if (err) {
+					      errLog(err);
+					    }
+					});
+				}
+				hasCalled = true;
 			}
-			else{
-				res.json(result);
-				fs.unlink(uploadDir + coverF.name, function(err){
-					if (err) {
-				      errLog(err);
-				    }
-				});
-				fs.unlink(uploadDir + embedF.name, function(err){
-					if (err) {
-				      errLog(err);
-				    }
-				});
-			}
-			hasCalled = true;
 		console.log("Done embedding");
 		});
     });
