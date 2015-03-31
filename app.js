@@ -66,7 +66,6 @@ router.route('/embed')
 				}
 				hasCalled = true;
 			}
-		console.log("Done embedding");
 		});
     });
 
@@ -143,6 +142,8 @@ app.use('/steganography', router);
 app.listen(port);
 console.log('Magic happens on port ' + port);
 
+// Embed/Extract functions ----------------------------
+// =============================================================================
 function embed(cover, embedFile, password, filetype, callback){
 	var result = {};
 	if(typeof password == 'undefined'){
@@ -177,6 +178,12 @@ function embed(cover, embedFile, password, filetype, callback){
 				result.error = true;
 				result.message = "Could Not open File";
 				callback(result);
+			} else if (data.toString().indexOf("the cover file is too short to embed the data") > -1){
+				result.error = true;
+				result.message = "Cover file must be larger than Embed file";
+				callback(result);
+			} else if (data.toString().indexOf("steghide:") > -1){
+				// Do nothing
 			} else if (data.toString().indexOf("writing stego file") > -1){
 				// Do Nothing
 			} else {
@@ -187,7 +194,7 @@ function embed(cover, embedFile, password, filetype, callback){
 		});
 	} else if(/^png$/i.test(filetype)){
 		result.error = true;
-		result.message = "Lossless Images Not Supported (yet)";
+		result.message = "PNG Images Not Supported (yet)";
 		callback(result);
 	} else {
 		result.error = true;
@@ -204,27 +211,27 @@ function extract(cover, password, filetype, callback){
 	filetype = filetype || cover.extension;
 	if(/^jpe?g|au|bmp|wav$/i.test(filetype)){
 		// Use Steghide
-		var command = ['extract', '-f', '-sf'];
-		command.push(cover.path,'-p', password);
+		var args = ['extract', '-f', '-sf'];
+		args.push(cover.path,'-p', password);
 		var spawn = require('child_process').spawn;
-		var child = spawn('steghide', command);
-		var hasSent = false;
+		var child = spawn('steghide', args, {cwd: resultDir});
 		child.stderr.on('data', function (data) {
 			console.log('stderr: ' + data);
-			if(!hasSent){
-				if(data.toString().indexOf("wrote extracted data to ") > -1){
-					result.fileName = data.toString().substring(data.toString().indexOf('"')+1,data.toString().lastIndexOf('"'));
-					var move = spawn('mv',[result.fileName,resultDir]);
-					hasSent = true;
-				} else if (data.toString().indexOf("could not extract any data with that passphrase") > -1){
-					result.error = true;
-					result.message = "Invalid Password";
-				} else {
-					result.error = true;
-					result.message = data.toString();
-				}
+			if(data.toString().indexOf("wrote extracted data to ") > -1){
+				result.fileName = data.toString().substring(data.toString().indexOf('"')+1,data.toString().lastIndexOf('"'));
+				//var move = spawn('mv',[result.fileName,resultDir],);
 				callback(result);
-			}
+			} else if (data.toString().indexOf("could not extract any data with that passphrase") > -1){
+				result.error = true;
+				result.message = "Invalid Password";
+				callback(result);
+			} else if (data.toString().indexOf("steghide:") > -1){
+				// Do nothing
+			} else {
+				result.error = true;
+				result.message = data.toString();
+				callback(result);
+			}	
 		});
 	} else if(/^png$/i.test(filetype)){
 		result.error = true;
