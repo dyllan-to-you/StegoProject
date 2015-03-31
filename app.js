@@ -69,7 +69,7 @@ router.route('/embed')
 		});
     });
 
-router.route('/embedded/:id')
+router.route('/retrieve/:id')
 	.get(function(req,res){
 		var id = req.params.id;
 		res.sendFile(id, {root:outputDir}, function (err) {
@@ -153,7 +153,6 @@ function embed(cover, embedFile, password, filetype, callback){
 
 	if(/^jpe?g|au|bmp|wav$/i.test(filetype)){
 		// Use Steghide
-		console.log("Calling Steghide");
 		var id = cover.name.split(".")[0] + ".";
 		var output = outputDir + id + filetype;
 		var command = ["embed", "-cf"];
