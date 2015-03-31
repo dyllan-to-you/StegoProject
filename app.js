@@ -97,35 +97,39 @@ router.route('/embedded/:id')
 
 router.route('/extract')
 	.post(function(req,res){
-		console.log("time to extract");
-		var embed = req.files.embed;
 		// has parameters {embed}, [password], [filetype] 
 		// returns embedded file
+		console.log("time to extract");
+		var embed = req.files.embed;
+		var hasCalled = false;
 		extract(embed, req.body.password, req.body.filetype, function(result){
-			if(typeof result.error !== 'undefined'){
-				res.status(500).json(result);
-			}
-			else{
-				// res.json(result);
-				res.sendFile(result.fileName, {root:resultDir}, function (err) {
-				    if (err) {
-				    	errLog("kek" + err);
-				    	res.status(err.status).end();
-				    }
-				    else {
-				      	console.log('Sent:', result.fileName);
-  						fs.unlink(uploadDir + embed.name, function(err){
-							if (err) {
-					    		errLog("unlinkerror " + err);
-					    	}
-						});
-						fs.unlink(resultDir + result.fileName,function(err){
-							if (err) {
-						      	errLog("unlinkerror " + err);
-						    }
-						});
-					}
-				});
+			if(hasCalled === false){
+				if(typeof result.error !== 'undefined'){
+					res.status(500).json(result);
+				}
+				else{
+					// res.json(result);
+					res.sendFile(result.fileName, {root:resultDir}, function (err) {
+					    if (err) {
+					    	errLog("kek" + err);
+					    	res.status(err.status).end();
+					    }
+					    else {
+					      	console.log('Sent:', result.fileName);
+	  						fs.unlink(uploadDir + embed.name, function(err){
+								if (err) {
+						    		errLog("unlinkerror " + err);
+						    	}
+							});
+							fs.unlink(resultDir + result.fileName,function(err){
+								if (err) {
+							      	errLog("unlinkerror " + err);
+							    }
+							});
+						}
+					});
+				}
+				hasCalled = true;	
 			}
 		});
 	});
@@ -200,10 +204,8 @@ function extract(cover, password, filetype, callback){
 	filetype = filetype || cover.extension;
 	if(/^jpe?g|au|bmp|wav$/i.test(filetype)){
 		// Use Steghide
-		console.log("Calling Steghide");
 		var command = ['extract', '-f', '-sf'];
 		command.push(cover.path,'-p', password);
-		console.log(command);
 		var spawn = require('child_process').spawn;
 		var child = spawn('steghide', command);
 		var hasSent = false;
@@ -219,7 +221,7 @@ function extract(cover, password, filetype, callback){
 					result.message = "Invalid Password";
 				} else {
 					result.error = true;
-					result.message = "lol" + data.toString();
+					result.message = data.toString();
 				}
 				callback(result);
 			}
