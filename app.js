@@ -90,7 +90,10 @@ router.route('/retrieve/:id')
 				errLog(err);
 				res.status(err.status).end();
 			}
-			res.json({"message":"File Deleted"});
+			else {
+				res.json({"message":"File Deleted"});
+				console.log('Deleted:',id);
+			}
 		});
 	});
 
