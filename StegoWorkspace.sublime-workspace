@@ -1,0 +1,591 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"to",
+				"toString"
+			],
+			[
+				"_callee",
+				"_callerRecorderEndpoint"
+			]
+		]
+	},
+	"buffers":
+	[
+		{
+			"file": "package.json",
+			"settings":
+			{
+				"buffer_size": 290,
+				"line_ending": "Windows",
+				"name": "{"
+			}
+		},
+		{
+			"file": "app.js",
+			"settings":
+			{
+				"buffer_size": 7072,
+				"line_ending": "Windows",
+				"name": "var express = require('express')"
+			}
+		},
+		{
+			"file": "README.md",
+			"settings":
+			{
+				"buffer_size": 442,
+				"line_ending": "Unix"
+			}
+		}
+	],
+	"build_system": "",
+	"command_palette":
+	{
+		"height": 115.0,
+		"selected_items":
+		[
+			[
+				"quick",
+				"Git: Quick Commit"
+			],
+			[
+				"java",
+				"Set Syntax: JavaScript"
+			],
+			[
+				"insta",
+				"Package Control: Install Package"
+			],
+			[
+				"install",
+				"Package Control: Install Package"
+			],
+			[
+				"remove",
+				"Package Control: Remove Package"
+			],
+			[
+				"remov",
+				"Package Control: Remove Package"
+			],
+			[
+				"format",
+				"Format: Javascript"
+			],
+			[
+				"lint",
+				"SublimeLinter: Show All Errors"
+			],
+			[
+				"pu",
+				"Git: Push"
+			],
+			[
+				"qu",
+				"Git: Quick Commit"
+			],
+			[
+				"pus",
+				"Git: Push"
+			],
+			[
+				"comm",
+				"Git: Commit"
+			],
+			[
+				"quic",
+				"Git: Quick Commit"
+			],
+			[
+				"push",
+				"Git: Push"
+			],
+			[
+				"qui",
+				"Git: Quick Commit"
+			],
+			[
+				"qcomm",
+				"Git: Quick Commit"
+			],
+			[
+				"add",
+				"Git: Add..."
+			],
+			[
+				"com",
+				"Git: Commit Selected Hunk"
+			],
+			[
+				"git add",
+				"Git: Add..."
+			],
+			[
+				"preview",
+				"Markdown Preview: Preview in Browser"
+			],
+			[
+				"cheat",
+				"Markdown Preview: Open Markdown Cheat sheet"
+			],
+			[
+				"markdown",
+				"Set Syntax: Markdown"
+			],
+			[
+				"instal",
+				"Package Control: Install Package"
+			],
+			[
+				"",
+				"About"
+			],
+			[
+				"pack",
+				"Preferences: Browse Packages"
+			],
+			[
+				"git qu",
+				"Git: Quick Commit"
+			],
+			[
+				"inst",
+				"Package Control: Install Package"
+			],
+			[
+				"q",
+				"Git: Quick Commit"
+			],
+			[
+				"github",
+				"Git: Push Current Branch"
+			],
+			[
+				"merg",
+				"Git: Merge Branch"
+			],
+			[
+				"git log",
+				"Git: Log All"
+			],
+			[
+				"commit",
+				"Git: Quick Commit"
+			],
+			[
+				"log",
+				"Git: Log All"
+			],
+			[
+				"status",
+				"Git: Status"
+			],
+			[
+				"stat",
+				"Git: Status"
+			],
+			[
+				"bran",
+				"Git: Pull Current Branch"
+			],
+			[
+				"commt",
+				"Git: Commit"
+			],
+			[
+				"init",
+				"Git: Init"
+			],
+			[
+				"packa",
+				"Package Control: Add Channel"
+			],
+			[
+				"hex",
+				"Hex Viewer: Toggle Hex View"
+			],
+			[
+				"downl",
+				"SFTP: Download File"
+			],
+			[
+				"up",
+				"SFTP: Upload File"
+			],
+			[
+				"upl",
+				"SFTP: Upload File"
+			],
+			[
+				"upd",
+				"SFTP: Upload File"
+			],
+			[
+				"uplo",
+				"SFTP: Upload File"
+			]
+		],
+		"width": 832.0
+	},
+	"console":
+	{
+		"height": 246.0,
+		"history":
+		[
+			"import urllib.request,os,hashlib; h = '2deb499853c4371624f5a07e27c334aa' + 'bf8c4e67d14fb0525ba4f89698a6d7e1'; pf = 'Package Control.sublime-package'; ipp = sublime.installed_packages_path(); urllib.request.install_opener( urllib.request.build_opener( urllib.request.ProxyHandler()) ); by = urllib.request.urlopen( 'http://packagecontrol.io/' + pf.replace(' ', '%20')).read(); dh = hashlib.sha256(by).hexdigest(); print('Error validating download (got %s instead of %s), please try manual install' % (dh, h)) if dh != h else open(os.path.join( ipp, pf), 'wb' ).write(by)"
+		]
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"expanded_folders":
+	[
+		"/C/Users/Jarwain/Documents/Projects/StegoProject"
+	],
+	"file_history":
+	[
+		"/C/php/php.ini",
+		"/C/Users/Jarwain/AppData/Roaming/Sublime Text 3/Packages/User/SFTP.errors.log",
+		"/C/PHP5/php.ini",
+		"/C/Users/Jarwain/AppData/Roaming/Sublime Text 3/Packages/SublimeLinter/SublimeLinter.sublime-settings",
+		"/C/Users/Jarwain/AppData/Roaming/Sublime Text 3/Packages/JsFormat/JsFormat.sublime-settings",
+		"/F/URLS",
+		"/C/Users/Jarwain/Documents/Projects/StegoProject/temp.js",
+		"/C/Users/Jarwain/Downloads/temp.html",
+		"/C/Users/Jarwain/Documents/Projects/StegoProject/sftp-config.json",
+		"/C/Users/Jarwain/Documents/Projects/Vocollab/sftp-config.json",
+		"/C/Users/Jarwain/AppData/Roaming/Sublime Text 3/Packages/User/Git.sublime-settings",
+		"/C/Users/Jarwain/AppData/Roaming/Sublime Text 3/Packages/Git/Git.sublime-settings",
+		"/C/Users/Jarwain/Documents/Projects/StegoProject/node_modules/body-parser/node_modules/iconv-lite/encodings/tables/shiftjis.json",
+		"/C/Users/Jarwain/Documents/Projects/StegoProject/node_modules/body-parser/lib/types/urlencoded.js",
+		"/C/Users/Jarwain/AppData/Roaming/Sublime Text 3/Packages/User/GitHub.sublime-settings",
+		"/C/Users/Jarwain/AppData/Roaming/Sublime Text 3/Packages/sublime-github/GitHub.sublime-settings",
+		"/C/Users/Jarwain/AppData/Roaming/Sublime Text 3/Packages/MarkdownEditing/Markdown (Standard).sublime-settings",
+		"/C/Users/Jarwain/AppData/Roaming/Sublime Text 3/Packages/User/Markdown (Standard).sublime-settings",
+		"/C/Users/Jarwain/AppData/Roaming/Sublime Text 3/Installed Packages/Monokai Extended.sublime-package",
+		"/C/Users/Jarwain/Documents/Projects/StegoProject/51c61be8-b37b-43ab-b5d9-c27f288830c2.dmp",
+		"/C/Users/Jarwain/Documents/Projects/StegoProject/README.md",
+		"/C/Users/Jarwain/Downloads/bterapksource/src/com/bterapp/client/AccountActivity.java",
+		"/C/Users/Jarwain/Downloads/bterapksource/src/com/bterapp/client/MyApp.java",
+		"/C/Users/Jarwain/Downloads/bterapksource/src/com/bterapp/client/m.java",
+		"/C/Users/Jarwain/Downloads/bterapksource/src/com/bterapp/client/a.java",
+		"/C/Users/Jarwain/Downloads/btertrader/.btertrader/market/bterDataInfo",
+		"/C/Users/Jarwain/Downloads/btertrader/.btertrader/market/index/index.db",
+		"/C/Users/Jarwain/Documents/Projects/Vocollab/VoCollab Features.txt",
+		"/C/users/jarwain/appdata/local/temp/sublime-sftp-browse-1422313864/sftp-config.json/home/jarwain/kurento-tutorial-node/kurento-one2one-call/app.js",
+		"/C/users/jarwain/appdata/local/temp/sublime-sftp-browse-1422252969/sftp-config.json/home/jarwain/kurento-tutorial-node/kurento-one2one-call/app.js",
+		"/C/Users/Jarwain/AppData/Roaming/Sublime Text 3/Packages/User/sftp_servers/sftp-config.json",
+		"/C/Users/Jarwain/Documents/netsino.c",
+		"/C/Users/Jarwain/Documents/obo.c",
+		"/C/Users/Jarwain/Downloads/takeout-20141009T215105Z/Takeout/Hangouts/Hangouts.json",
+		"/C/Users/Jarwain/AppData/Roaming/Sublime Text 3/Packages/Default/Preferences.sublime-settings",
+		"/C/Users/Jarwain/AppData/Roaming/Sublime Text 3/Packages/User/Preferences.sublime-settings"
+	],
+	"find":
+	{
+		"height": 64.0
+	},
+	"find_in_files":
+	{
+		"height": 0.0,
+		"where_history":
+		[
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+			"embed",
+			"goToFloor",
+			"extension",
+			"embed",
+			"json",
+			"__dirname",
+			"result",
+			"output",
+			"upload",
+			"uploads",
+			".",
+			"Error:",
+			"Error",
+			"errLog",
+			"console.log(err);",
+			"embed",
+			"checksum",
+			"./upload",
+			"uploadDir",
+			"decrypt",
+			"embeded",
+			"encrypt",
+			"2.",
+			"3.",
+			"cover",
+			"ls",
+			"record",
+			"secretkeyspec",
+			";",
+			"__dir",
+			"path",
+			"self",
+			"incomingCall",
+			"endpo",
+			" ",
+			"N",
+			"H",
+			"M",
+			"I",
+			"B",
+			"O",
+			"E",
+			"D",
+			"C",
+			"K",
+			"1011",
+			"1001",
+			"0010",
+			"0100",
+			"1101",
+			"1010",
+			"1000",
+			"1011",
+			"0110",
+			"0101",
+			"print",
+			"long_max",
+			"GAAAMES"
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+			""
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"folders":
+	[
+		{
+			"follow_symlinks": true,
+			"path": "C:\\Users\\Jarwain\\Documents\\Projects\\StegoProject"
+		}
+	],
+	"groups":
+	[
+		{
+			"selected": 0,
+			"sheets":
+			[
+				{
+					"buffer": 0,
+					"file": "package.json",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 290,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								191,
+								191
+							]
+						],
+						"settings":
+						{
+							"auto_name": "{",
+							"color_scheme": "Packages/Monokai Extended/Monokai Extended.tmTheme",
+							"incomplete_sync": null,
+							"remote_loading": false,
+							"synced": true,
+							"syntax": "Packages/JavaScript/JSON.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "app.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 7072,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1819,
+								1847
+							]
+						],
+						"settings":
+						{
+							"auto_name": "var express = require('express')",
+							"color_scheme": "Packages/Monokai Extended/Monokai Extended.tmTheme",
+							"incomplete_sync": null,
+							"remote_loading": false,
+							"synced": true,
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 820.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "README.md",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 442,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								442,
+								442
+							]
+						],
+						"settings":
+						{
+							"color_scheme": "Packages/MarkdownEditing/MarkdownEditor.tmTheme",
+							"incomplete_sync": null,
+							"parser": "markdown",
+							"remote_loading": false,
+							"synced": true,
+							"syntax": "Packages/MarkdownEditing/Markdown (Standard).tmLanguage",
+							"target": "disk"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 2,
+					"type": "text"
+				}
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 39.0
+	},
+	"input":
+	{
+		"height": 55.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.find_results":
+	{
+		"height": 0.0
+	},
+	"output.git":
+	{
+		"height": 186.0
+	},
+	"output.hex_viewer_inspector":
+	{
+		"height": 186.0
+	},
+	"output.sftp":
+	{
+		"height": 198.0
+	},
+	"project": "",
+	"replace":
+	{
+		"height": 74.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 1000.0,
+		"selected_items":
+		[
+		],
+		"width": 760.0
+	},
+	"select_symbol":
+	{
+		"height": 784.0,
+		"selected_items":
+		[
+		],
+		"width": 784.0
+	},
+	"selected_group": 0,
+	"settings":
+	{
+	},
+	"show_minimap": true,
+	"show_open_files": false,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 278.0,
+	"status_bar_visible": true,
+	"template_settings":
+	{
+	}
+}
