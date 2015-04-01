@@ -6,7 +6,8 @@
     "express": "latest",
     "body-parser": "latest",
     "multer":"latest",
-    "checksum":"latest"
+    "checksum":"latest",
+    "fs":"latest"
   },
   "repository":{
   	"type": "git",
