@@ -91,7 +91,29 @@ router.route('/embed')
     	result.arguments = "cover, embed, [password], [filetype]. [optional]";
     	res.status(400).json(result);
     });
-
+router.route('/info/')
+	.post(function(req,res){
+		var result = {};
+		result.message = "";
+		var coverF = req.files.cover;
+		var password;
+		if(typeof req.password == 'undefined'){
+			password = "";
+		}
+		var command = ["info"];
+		command.push(coverF.path,"-p",password);
+		var spawn = require('child_process').spawn;
+		var child = spawn('steghide', command);
+		child.stdout.on('data', function (data){
+			console.log(data.toString());
+			if(data.toString().indexOf("capacity") > -1){
+				result.message = data.toString();
+				res.json(result);
+			} else {
+				// Do Nothing
+			}
+		});
+	});
 router.route('/retrieve/:id')
 	.get(function(req,res){
 		var id = req.params.id;
