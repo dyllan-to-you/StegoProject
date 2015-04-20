@@ -7,6 +7,8 @@ $(document).ready(function(){
 	var embedFile = $('#embedFile');
 	var empass = $('#empass');
 	var fileInfo = $('#fileInfo');
+	var errorInfoEm = $('#errorInfoEm')
+	var errorInfoEx = $('#errorInfoEx')
 	var fileCap;
 
 	function getFileCap(fileInfo)
@@ -32,7 +34,8 @@ $(document).ready(function(){
 				fileInfo.append('<p class="alert alert-success"><b>'+fileCap+'</b></p>');
 			},
 			error: function(){
-				alert('Error retrieving file capacity!');
+				fileInfo.empty();
+				fileInfo.append('<div class="alert alert-danger alert-dismissible" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>Error retrieving file capacity! Upload file again! </div>');
 			}
 		})
 	});
@@ -59,7 +62,8 @@ $(document).ready(function(){
 				success.append('<p>Check Sum: '+newStegoFile.checksum_sha1+'</p>');
 			},
 			error: function(){
-				alert('Error generating stego file!');
+				errorInfoEm.empty();
+				errorInfoEm.append('<div class="alert alert-danger alert-dismissible" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>Error generating stego file! Make sure the cover file type is correct and the embed file is within the capacity of the cover file. Then try generating the stego file again.</div>');
 			}
 		});
 	});
@@ -134,7 +138,8 @@ $(document).ready(function(){
 				}
 			},
 			error: function(){
-				alert('Error extracting from stego file!');
+				errorInfoEx.empty();
+				errorInfoEx.append('<div class="alert alert-danger alert-dismissible" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>There is no hidden data to extract!</div>');
 			}
 		});
 	});

@@ -16,6 +16,8 @@
     <link href="css/style.css" rel="stylesheet">
     <link href="css/stego.css" rel="stylesheet">
     <link href="css/font-awesome.min.css" rel="stylesheet">
+    <link rel="shortcut icon" href="img/favicon.ico" type="image/x-icon">
+	<link rel="icon" href="img/favicon.ico" type="image/x-icon">
 
 
     <!-- Just for debugging purposes. Don't actually copy this line! -->
@@ -151,10 +153,12 @@
             <h4 class="modal-title" id="myModalLabel">Embed</h4>
           </div>
           <div class="modal-body">
+          	<p>The embed file must be smaller than the cover file's storage capacity.</p>
             <p><b>Cover File</b> (.jpg .jpeg .au .wav .bmp):<input type="file" id="cover"></p>
             <div id="fileInfo"></div>
             <p><b>Embed File</b> (no file type restrictions):<input type="file" id="embedFile"></p>
             <p><b>Password</b> (Optional): <input type="text" id="empass"></p>
+            <div id="errorInfoEm"></div>
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -173,6 +177,7 @@
           <div class="modal-body">
             <p><b>Stego File:</b><input type="file" id="stego"></p>
             <p><b>Password</b> (Optional): <input type="password" id="expass"></p>
+            <div id="errorInfoEx"></div>
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
