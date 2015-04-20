@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Steggy - API</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="css/bootstrap.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="css/style.css" rel="stylesheet">
+    <link href="css/font-awesome.min.css" rel="stylesheet">
+    <link href="css/stego.css" rel="stylesheet">
+
+
+    <!-- Just for debugging purposes. Don't actually copy this line! -->
+    <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    
+    <script src="js/modernizr.js"></script>
+  </head>
+
+  <body>
+
+    <!-- Navbar -->
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="index.html">STEGGY</a>
+        </div>
+        <div class="navbar-collapse collapse navbar-right">
+          <ul class="nav navbar-nav">
+            <li><a href="index.html">HOME</a></li>
+            <li><a href="about.html">ABOUT</a></li>
+            <li  class="active"><a href="api.html">API</a></li>
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </div>
+
+	<div id="blue">
+	    <div class="container">
+			<div class="row">
+				<h3>API</h3>
+			</div><!-- /row -->
+	    </div> <!-- /container -->
+	</div><!-- /blue -->
+
+	
+	 <div class="container mtb">
+	 	<div class="row">
+	 	
+	 		<div class="col-lg-12">
+		 		<h3 class="ctitle">Steggy API</h3>
+		 		<p><b>Steggy</b> provides a consumable API that allows users to implement Steggy's services in through their own web services.</p>
+		 		<p>The API provides an interface between the C++ Steghide Libary and the webservice. The API's two most important functions are the embed and extract function while retrieve and info are helper functions. JSON objects are used to send the fields designated in the table below.</p>
+
+		 		<!-- API Table -->
+		 		<table class="table table-hover table-bordered">
+		 			<thead>
+			 			<tr>
+			 				<th>URL</th>
+			 				<th>GET</th>
+			 				<th>POST</th>
+			 				<th>DELETE</th>
+			 			</tr>
+					</thead>
+					<tbody>
+						<tr> <!-- embed -->
+							<td>http://jarwa.in:8080/steganography/embed/</td>
+							<td></td>
+							<td>
+								<p><b>Accepts:</b> {cover}, {embed}, [filetype], [password]</p>
+								<p><b>Returns:</b> {id}, {checksum_sha1}</p>
+							</td>
+							<td></td>
+						</tr>
+						<tr> <!-- retrieve -->
+							<td>http://jarwa.in:8080/steganography/retrieve/{id}</td>
+							<td>
+								<p><b>Returns:</b> File of {id}</p>
+							</td>
+							<td></td>
+							<td>
+								<p><b>Deletes:</b> File of {id}</p>
+							</td>
+						</tr>
+						<tr> <!-- extract -->
+							<td>http://jarwa.in:8080/steganography/extract/</td>
+							<td></td>
+							<td>
+								<p><b>Accepts:</b> {embed}, [filetype], [password]</p>
+								<p><b>Returns:</b> Embedded file as blob</p>
+							</td>
+							<td></td>
+						</tr>
+						<tr> <!-- embed -->
+							<td>http://jarwa.in:8080/steganography/info/</td>
+							<td></td>
+							<td>
+								<p><b>Accepts:</b> {cover}</p>
+								<p><b>Returns:</b> {message} with details such as image capacity</p>
+							</td>
+							<td></td>
+						</tr>
+					</tbody>
+		 		</table>
+		 		<p><b>Notes:</b> The cover file field can only be a .jpg .jpeg .bmp .au .wav file type. The embed field can be any file type.</p>
+			</div>
+	 		
+	 		
+	 	</div>
+	 </div>
+
+
+	<!-- Footer -->
+	 <div id="footerwrap">
+	 	<div class="container">
+		 	<div class="row">
+		 		<div class="col-lg-4 center">
+		 			<h4>About</h4>
+		 			<div class="hline-w"></div>
+		 			<p>We're are a team dedicated to provided simple tools to help people hide their personal information.</p>
+		 			<div class="center">
+		 				<a href="#" class="btn btn-theme">Meet The Team</a>
+		 			</div>
+		 		</div>
+		 		<div class="col-lg-4 center">
+		 			<h4>GitHub</h4>
+		 			<div class="hline-w center"></div>
+		 			<p><a href="#"><i class="fa fa-github"></i></a>Fork us on GitHub!</p>
+		 		</div>
+		 		<div class="col-lg-4 center">
+		 			<h4>Credits</h4>
+		 			<div class="hline-w center"></div>
+		 			<p>
+		 				<a href="https://jquery.com/">jQuery</a><br/>
+		 				<a href="http://steghide.sourceforge.net/">Steghide</a><br/>
+		 				<a href="http://getbootstrap.com/">Bootstrap</a><br/>
+		 				<a href="http://www.blacktie.co/">Black Tie Themes</a><br/>
+
+		 			</p>
+		 		</div>
+		 	
+		 	</div>
+	 	</div>
+	 </div>
+	 
+    <!-- Javscript -->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+	<script src="js/retina-1.1.0.js"></script>
+	<script src="js/jquery.hoverdir.js"></script>
+	<script src="js/jquery.hoverex.min.js"></script>
+	<script src="js/jquery.prettyPhoto.js"></script>
+  	<script src="js/jquery.isotope.min.js"></script>
+  	<script src="js/custom.js"></script>
+  	<script src="js/stego.js"></script>
+
+
+  </body>
+</html>
