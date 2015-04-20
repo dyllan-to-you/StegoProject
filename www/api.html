@@ -6,9 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
     <meta name="author" content="">
-    <link rel="shortcut icon" href="assets/ico/favicon.ico">
 
-    <title>SOLID - Bootstrap 3 Theme</title>
+    <title>Steggy - API</title>
 
     <!-- Bootstrap core CSS -->
     <link href="css/bootstrap.css" rel="stylesheet">
@@ -16,6 +15,7 @@
     <!-- Custom styles for this template -->
     <link href="css/style.css" rel="stylesheet">
     <link href="css/font-awesome.min.css" rel="stylesheet">
+    <link href="css/stego.css" rel="stylesheet">
 
 
     <!-- Just for debugging purposes. Don't actually copy this line! -->
@@ -54,9 +54,6 @@
       </div>
     </div>
 
-	<!-- *****************************************************************************************************************
-	 BLUE WRAP
-	 ***************************************************************************************************************** -->
 	<div id="blue">
 	    <div class="container">
 			<div class="row">
@@ -65,29 +62,71 @@
 	    </div> <!-- /container -->
 	</div><!-- /blue -->
 
-	 
-	<!-- *****************************************************************************************************************
-	 BLOG CONTENT
-	 ***************************************************************************************************************** -->
-
+	
 	 <div class="container mtb">
 	 	<div class="row">
 	 	
-	 		<div class="col-lg-8">
-		 		<a href="single-post.html"><h3 class="ctitle">Steggy Consumable API</h3></a>
-		 		<p><b>Lorem Ipsum</b> is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>
-		 		<p>It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
-		 		<p>Contrary to popular belief, <b>Lorem Ipsum is not simply random text</b>. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at <a href="#">Hampden-Sydney College</a> in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source.</p>
-		 		<p>Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of "de Finibus Bonorum et Malorum" (The Extremes of Good and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of ethics, very popular during the Renaissance. The first line of Lorem Ipsum, "Lorem ipsum dolor sit amet..", comes from a line in section 1.10.32.</p>
-		 		<h4>Why do we use it?</h4>
-		 		<p>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English.</p>
-		 		<blockquote>Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).</blockquote>
-		 		<p>There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable.</p>
+	 		<div class="col-lg-12">
+		 		<h3 class="ctitle">Steggy API</h3>
+		 		<p><b>Steggy</b> provides a consumable API that allows users to implement Steggy's services in through their own web services.</p>
+		 		<p>The API provides an interface between the C++ Steghide Libary and the webservice. The API's two most important functions are the embed and extract function while retrieve and info are helper functions. JSON objects are used to send the fields designated in the table below.</p>
+
+		 		<!-- API Table -->
+		 		<table class="table table-hover table-bordered">
+		 			<thead>
+			 			<tr>
+			 				<th>URL</th>
+			 				<th>GET</th>
+			 				<th>POST</th>
+			 				<th>DELETE</th>
+			 			</tr>
+					</thead>
+					<tbody>
+						<tr> <!-- embed -->
+							<td>http://jarwa.in:8080/steganography/embed/</td>
+							<td></td>
+							<td>
+								<p><b>Accepts:</b> {cover}, {embed}, [filetype], [password]</p>
+								<p><b>Returns:</b> {id}, {checksum_sha1}</p>
+							</td>
+							<td></td>
+						</tr>
+						<tr> <!-- retrieve -->
+							<td>http://jarwa.in:8080/steganography/retrieve/{id}</td>
+							<td>
+								<p><b>Returns:</b> File of {id}</p>
+							</td>
+							<td></td>
+							<td>
+								<p><b>Deletes:</b> File of {id}</p>
+							</td>
+						</tr>
+						<tr> <!-- extract -->
+							<td>http://jarwa.in:8080/steganography/extract/</td>
+							<td></td>
+							<td>
+								<p><b>Accepts:</b> {embed}, [filetype], [password]</p>
+								<p><b>Returns:</b> Embedded file as blob</p>
+							</td>
+							<td></td>
+						</tr>
+						<tr> <!-- embed -->
+							<td>http://jarwa.in:8080/steganography/info/</td>
+							<td></td>
+							<td>
+								<p><b>Accepts:</b> {cover}</p>
+								<p><b>Returns:</b> {message} with details such as image capacity</p>
+							</td>
+							<td></td>
+						</tr>
+					</tbody>
+		 		</table>
+		 		<p><b>Notes:</b> The cover file field can only be a .jpg .jpeg .bmp .au .wav file type. The embed field can be any file type.</p>
 			</div>
 	 		
 	 		
-	 	</div><! --/row -->
-	 </div><! --/container -->
+	 	</div>
+	 </div>
 
 
 	<!-- Footer -->
@@ -112,14 +151,16 @@
 		 			<div class="hline-w center"></div>
 		 			<p>
 		 				<a href="https://jquery.com/">jQuery</a><br/>
+		 				<a href="http://steghide.sourceforge.net/">Steghide</a><br/>
 		 				<a href="http://getbootstrap.com/">Bootstrap</a><br/>
 		 				<a href="http://www.blacktie.co/">Black Tie Themes</a><br/>
+
 		 			</p>
 		 		</div>
 		 	
-		 	</div><! --/row -->
-	 	</div><! --/container -->
-	 </div><! --/footerwrap -->
+		 	</div>
+	 	</div>
+	 </div>
 	 
     <!-- Javscript -->
 

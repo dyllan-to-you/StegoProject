@@ -29,7 +29,7 @@ $(document).ready(function(){
 			success: function(infoData){
 				fileCap=getFileCap(infoData.message);
 				fileInfo.empty();
-				fileInfo.append('<p>'+fileCap+'</p>');
+				fileInfo.append('<p class="alert alert-success"><b>'+fileCap+'</b></p>');
 			},
 			error: function(){
 				alert('Error retrieving file capacity!');
@@ -53,8 +53,8 @@ $(document).ready(function(){
 				success.empty();
 				$('#embedModal').modal('hide');
 				$('#successModal').modal('show');
-				success.append('<img src="http://jarwa.in:8080/steganography/retrieve/'+newStegoFile.id+'"style="max-height: 100px; max-width: 100px;">')
-				success.append('<a href="http://jarwa.in:8080/steganography/retrieve/'+newStegoFile.id+'"download="stegoFile">Download</a>');
+				success.append('<img src="http://jarwa.in:8080/steganography/retrieve/'+newStegoFile.id+'" onerror="if(this.src!="Default-file.jpg") this.src="img/Default-file.jpg") style="max-height: 400px; max-width: 400px;"></br></br>')
+				success.append('<a href="http://jarwa.in:8080/steganography/retrieve/'+newStegoFile.id+'"download="stegoFile"><button class="btn btn-primary">Download</button></a>');
 				success.append('<p>ID: '+newStegoFile.id+'</p>');
 				success.append('<p>Check Sum: '+newStegoFile.checksum_sha1+'</p>');
 			},
@@ -129,7 +129,8 @@ $(document).ready(function(){
 					success.empty();
 					$('#extractModal').modal('hide');
 					$('#successModal').modal('show');
-					success.append('<a href="'+resultFile+'" download="extract" download>Download</a>');
+					success.append('<img src="img/Default-file.jpg" style="max-height: 200px; max-width: 200px;"></br></br>')
+					success.append('<a href="'+resultFile+'" download="extract" download><button class="btn btn-primary">Download</button></a>');
 				}
 			},
 			error: function(){
