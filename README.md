@@ -1,4 +1,6 @@
 #StegoProject
+Apparently the website was never committed q.q
+The API should still work. 
 
 ##Referenced URLS
 - http://stackoverflow.com/questions/20643470/execute-a-command-line-binary-in-node-js
